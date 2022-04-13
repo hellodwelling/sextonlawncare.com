@@ -69,6 +69,7 @@
     <script type="text/javascript" defer>
                     function send_sms(slug){
                         console.log('send_sms',1, slug)
+                        event.preventDefault()
                         function uuidV4() {
                             return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
                               (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -187,7 +188,6 @@
                         }
                         const getSelectedServices = () =>{
                             const allSelectedServiced = Array.from(document.querySelectorAll('[id^="contact-service"]'))
-
                             if (allSelectedServiced.length){
                                 return allSelectedServiced.filter( (x)=> x.checked
                             ).map(item => item.value).join(",");
@@ -236,7 +236,7 @@
                                 sender_number: cleaned_sender_number,
                                 sender_message: sender_message,
                                 sender_address: sender_address,
-                                sender_contact_date: sender_contact_date,
+                                sender_date: sender_contact_date,
                                 photo,
                                 services
                             })
@@ -248,11 +248,26 @@
                             return result.json();
                         })
                         .then(result => {
+                            const sendTextModalId = document.getElementById("send-text-modal")
+                            sendTextModalId.style.display = 'none'
+                            const modalId = document.getElementById("text-thank-you")
+                            modalId.style.display = 'block';
+                            return result
+                        })
+                        .catch(result => {
                             console.log(result)
-                            alert("Your message has been sent!")
-                            location.reload()
+                            alert("Please make sure to fill out each field")
                         })
 
+                        setTimeout(() => {
+                            const modalId = document.getElementById("text-thank-you")
+                            modalId.style.display = 'none';
+                            reload()
+                        }, 5000);
+
+                        const reload = () => {
+                            location.reload()
+                        }
 
                     }
                 
@@ -352,8 +367,8 @@
                         class="flex items-center h-full transition-all duration-200 origin-left"
                     >
                         <!-- Logo Link -->
-                        <a
-                            href="/"
+                    
+                        <a  href= " index "
                             class="flex items-center justify-center flex-shrink-0 pr-5 bg-white rounded-md  focus:ring-2 focus:outline-none ring-primary ring-opacity-75 ring-offset-2"
                         >
                             <img
@@ -362,6 +377,7 @@
                                 alt="Brand Logo"
                             />
                         </a>
+                    
                     </div>
                     <!-- Links -->
                     <div
@@ -692,6 +708,17 @@
                     <!-- CTA Primary-Invert -->
                     <div class="inline-flex w-full ml-3 sm:w-auto">
                         
+                        <div class="inline-flex w-full ml-3 sm:w-auto">
+                            <a
+                                target = "_blank" 
+                                href="tel:1-678-963-8237"
+                                :class="{'scale-100': !scrolledFromTop, 'scale-75': scrolledFromTop}"
+                                class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium transition bg-white border-2 rounded-md  hover:bg-primary hover:bg-opacity-10 focus:outline-none focus:ring-2 ring-primary ring-opacity-75 ring-offset-2 sm:w-auto text-primary border-primary"
+                                >
+                                1-678-963-8237
+                            </a>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -930,6 +957,15 @@
                                 Send us a Text
                             </button>
                         
+                        
+                            <a
+                                target = "_blank" 
+                                href="tel:1-678-963-8237"
+                                :class="{'scale-100': !scrolledFromTop, 'scale-75': scrolledFromTop}"
+                                class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium transition bg-white border-2 rounded-md  hover:bg-primary hover:bg-opacity-10 focus:outline-none focus:ring-2 ring-primary ring-opacity-75 ring-offset-2 sm:w-auto text-primary border-primary"
+                                >
+                                1-678-963-8237
+                            </a>
                          
                      
                 
@@ -1041,7 +1077,7 @@
         >
             <img
                 class="object-cover w-full h-72 md:h-96 lg:w-full lg:h-full"
-                src="https://landing-page-app-hero-images.s3.amazonaws.com/media/104aa06a-60e4-47f3-ad3f-65aeb99252a3.jpeg"
+                src=""
                 alt=""
             />
         </div> -->
@@ -2026,27 +2062,6 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                 <div x-show="shown" x-transition:enter="transition duration-1000" x-transition:enter-start="transform translate-y-20" x-transition:enter-end="transform translate-y-0">
                     <button @click="activeImage = 4; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
-                            <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/385ee707-b808-45f1-b96c-deb6ac93e0f0.png" alt="" /> -->
-                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/385ee707-b808-45f1-b96c-deb6ac93e0f0.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/> 
-                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/385ee707-b808-45f1-b96c-deb6ac93e0f0.png" alt="" /> -->
-                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/x/media/385ee707-b808-45f1-b96c-deb6ac93e0f0.png" alt="" /> -->
-                            
-                        </div>
-
-                        <div class="space-y-1 text-lg font-medium leading-6">
-                            <p class="line-clamp-3"></p>
-                            <h3 class="text-primary"></h3>
-                        </div>
-                    </button>
-                </div>
-            </li>
-        
-            <!-- Single Item - We only want to show 3 items on mobile so we check the current index and attach a hidden class if necessary -->
-            <li x-cloak x-data="{ shown: false }" x-intersect.full="shown = true" class=" hidden sm:block ">
-                <div x-show="shown" x-transition:enter="transition duration-1000" x-transition:enter-start="transform translate-y-20" x-transition:enter-end="transform translate-y-0">
-                    <button @click="activeImage = 5; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
-                        <div class="aspect-w-3 aspect-h-2">
                             <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/01bae4b0-5ebe-4535-bc0b-c048cb9f7fee.jpeg" alt="" /> -->
                              
                                 <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/01bae4b0-5ebe-4535-bc0b-c048cb9f7fee.jpeg" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/> 
@@ -2066,13 +2081,13 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
             <!-- Single Item - We only want to show 3 items on mobile so we check the current index and attach a hidden class if necessary -->
             <li x-cloak x-data="{ shown: false }" x-intersect.full="shown = true" class=" hidden sm:block ">
                 <div x-show="shown" x-transition:enter="transition duration-1000" x-transition:enter-start="transform translate-y-20" x-transition:enter-end="transform translate-y-0">
-                    <button @click="activeImage = 6; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
+                    <button @click="activeImage = 5; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
-                            <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/b8a95a5f-f820-484d-a85e-bc5be7843577.png" alt="" /> -->
+                            <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/385ee707-b808-45f1-b96c-deb6ac93e0f0.png" alt="" /> -->
                              
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/b8a95a5f-f820-484d-a85e-bc5be7843577.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/> 
-                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/b8a95a5f-f820-484d-a85e-bc5be7843577.png" alt="" /> -->
-                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/x/media/b8a95a5f-f820-484d-a85e-bc5be7843577.png" alt="" /> -->
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/385ee707-b808-45f1-b96c-deb6ac93e0f0.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/> 
+                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/385ee707-b808-45f1-b96c-deb6ac93e0f0.png" alt="" /> -->
+                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/x/media/385ee707-b808-45f1-b96c-deb6ac93e0f0.png" alt="" /> -->
                             
                         </div>
 
@@ -2087,7 +2102,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
             <!-- Single Item - We only want to show 3 items on mobile so we check the current index and attach a hidden class if necessary -->
             <li x-cloak x-data="{ shown: false }" x-intersect.full="shown = true" class=" hidden sm:block ">
                 <div x-show="shown" x-transition:enter="transition duration-1000" x-transition:enter-start="transform translate-y-20" x-transition:enter-end="transform translate-y-0">
-                    <button @click="activeImage = 7; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
+                    <button @click="activeImage = 6; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/94e97b7b-d912-4cc5-a0eb-7d9313c34913.jpeg" alt="" /> -->
                              
@@ -2106,15 +2121,36 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
             </li>
         
             <!-- Single Item - We only want to show 3 items on mobile so we check the current index and attach a hidden class if necessary -->
+            <li x-cloak x-data="{ shown: false }" x-intersect.full="shown = true" class=" hidden sm:block ">
+                <div x-show="shown" x-transition:enter="transition duration-1000" x-transition:enter-start="transform translate-y-20" x-transition:enter-end="transform translate-y-0">
+                    <button @click="activeImage = 7; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
+                        <div class="aspect-w-3 aspect-h-2">
+                            <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/b8a95a5f-f820-484d-a85e-bc5be7843577.png" alt="" /> -->
+                             
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/b8a95a5f-f820-484d-a85e-bc5be7843577.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/> 
+                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/b8a95a5f-f820-484d-a85e-bc5be7843577.png" alt="" /> -->
+                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/x/media/b8a95a5f-f820-484d-a85e-bc5be7843577.png" alt="" /> -->
+                            
+                        </div>
+
+                        <div class="space-y-1 text-lg font-medium leading-6">
+                            <p class="line-clamp-3"></p>
+                            <h3 class="text-primary"></h3>
+                        </div>
+                    </button>
+                </div>
+            </li>
+        
+            <!-- Single Item - We only want to show 3 items on mobile so we check the current index and attach a hidden class if necessary -->
             <li x-cloak x-data="{ shown: false }" x-intersect.full="shown = true" class=" block ">
                 <div x-show="shown" x-transition:enter="transition duration-1000" x-transition:enter-start="transform translate-y-20" x-transition:enter-end="transform translate-y-0">
                     <button @click="activeImage = 8; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
-                            <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/8a457fd4-0c97-42aa-84a4-bf9803e656a9.png" alt="" /> -->
+                            <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/40cc617a-6ee2-47f2-8e52-f5b3d84b0c44.jpeg" alt="" /> -->
                              
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/8a457fd4-0c97-42aa-84a4-bf9803e656a9.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/> 
-                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/8a457fd4-0c97-42aa-84a4-bf9803e656a9.png" alt="" /> -->
-                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/x/media/8a457fd4-0c97-42aa-84a4-bf9803e656a9.png" alt="" /> -->
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/40cc617a-6ee2-47f2-8e52-f5b3d84b0c44.jpeg" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/> 
+                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/40cc617a-6ee2-47f2-8e52-f5b3d84b0c44.jpeg" alt="" /> -->
+                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/x/media/40cc617a-6ee2-47f2-8e52-f5b3d84b0c44.jpeg" alt="" /> -->
                             
                         </div>
 
@@ -2131,11 +2167,11 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                 <div x-show="shown" x-transition:enter="transition duration-1000" x-transition:enter-start="transform translate-y-20" x-transition:enter-end="transform translate-y-0">
                     <button @click="activeImage = 9; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
-                            <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/40cc617a-6ee2-47f2-8e52-f5b3d84b0c44.jpeg" alt="" /> -->
+                            <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/8a457fd4-0c97-42aa-84a4-bf9803e656a9.png" alt="" /> -->
                              
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/40cc617a-6ee2-47f2-8e52-f5b3d84b0c44.jpeg" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/> 
-                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/40cc617a-6ee2-47f2-8e52-f5b3d84b0c44.jpeg" alt="" /> -->
-                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/x/media/40cc617a-6ee2-47f2-8e52-f5b3d84b0c44.jpeg" alt="" /> -->
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/8a457fd4-0c97-42aa-84a4-bf9803e656a9.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/> 
+                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/8a457fd4-0c97-42aa-84a4-bf9803e656a9.png" alt="" /> -->
+                                <!-- <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/x/media/8a457fd4-0c97-42aa-84a4-bf9803e656a9.png" alt="" /> -->
                             
                         </div>
 
@@ -2587,7 +2623,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                     <!-- Transition Wrapper 1 -->
                                     <li class="flex flex-col" x-show="activeImage === 4">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/385ee707-b808-45f1-b96c-deb6ac93e0f0.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/01bae4b0-5ebe-4535-bc0b-c048cb9f7fee.jpeg" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
@@ -2595,7 +2631,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                     <!-- Transition Wrapper 1 -->
                                     <li class="flex flex-col" x-show="activeImage === 5">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/01bae4b0-5ebe-4535-bc0b-c048cb9f7fee.jpeg" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/385ee707-b808-45f1-b96c-deb6ac93e0f0.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
@@ -2603,7 +2639,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                     <!-- Transition Wrapper 1 -->
                                     <li class="flex flex-col" x-show="activeImage === 6">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/b8a95a5f-f820-484d-a85e-bc5be7843577.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/94e97b7b-d912-4cc5-a0eb-7d9313c34913.jpeg" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
@@ -2611,7 +2647,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                     <!-- Transition Wrapper 1 -->
                                     <li class="flex flex-col" x-show="activeImage === 7">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/94e97b7b-d912-4cc5-a0eb-7d9313c34913.jpeg" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/b8a95a5f-f820-484d-a85e-bc5be7843577.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
@@ -2619,7 +2655,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                     <!-- Transition Wrapper 1 -->
                                     <li class="flex flex-col" x-show="activeImage === 8">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/8a457fd4-0c97-42aa-84a4-bf9803e656a9.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/40cc617a-6ee2-47f2-8e52-f5b3d84b0c44.jpeg" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
@@ -2627,7 +2663,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                     <!-- Transition Wrapper 1 -->
                                     <li class="flex flex-col" x-show="activeImage === 9">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/40cc617a-6ee2-47f2-8e52-f5b3d84b0c44.jpeg" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/8a457fd4-0c97-42aa-84a4-bf9803e656a9.png" alt="Weekly Maintenance for Sexton Lawn Care in Jefferson, GA" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
@@ -2979,12 +3015,12 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                         />
                                     </svg>
                                     <p lorem="1" class="relative text-lg font-medium">
-                                        Great job! Very thorough! First time using the service. Very professional. Easy pay option. Great price. Gave plenty of notice of arrival. I definitely recommend.
+                                        SOD INSTALLATION - Excellent work with great communication and accountability. I was given a quote and the work was scheduled and finished as planned. I was given follow-up instruction on taking care of the lawn. We are very happy and would highly recommend Sexton Lawn Care
                                     </p>
                                 </div>
                                 <footer class="flex items-center justify-between mt-8 space-x-4">
                                     <div>
-                                        <span class="block font-medium text-primary">Rebecca Stone</span>
+                                        <span class="block font-medium text-primary">Jeff Vanderhorst</span>
                                         <span class="block font-medium">Jefferson, GA</span>
                                     </div>
 
@@ -3152,12 +3188,12 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                         />
                                     </svg>
                                     <p lorem="1" class="relative text-lg font-medium">
-                                        Highly recommend these guys!! We are selling our house and needed last minute service. They responded immediately and with a fair price. The lawns look great and they were very thorough. ⭐️⭐️⭐️⭐️⭐️ Professional, Excellent Customer Service, and really nice guys! Thank you!!
+                                        Great job! Very thorough! First time using the service. Very professional. Easy pay option. Great price. Gave plenty of notice of arrival. I definitely recommend.
                                     </p>
                                 </div>
                                 <footer class="flex items-center justify-between mt-8 space-x-4">
                                     <div>
-                                        <span class="block font-medium text-primary">Heather Kanter</span>
+                                        <span class="block font-medium text-primary">Rebecca Stone</span>
                                         <span class="block font-medium">Jefferson, GA</span>
                                     </div>
 
@@ -3242,12 +3278,12 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                         />
                                     </svg>
                                     <p lorem="1" class="relative text-lg font-medium">
-                                        SOD INSTALLATION - Excellent work with great communication and accountability. I was given a quote and the work was scheduled and finished as planned. I was given follow-up instruction on taking care of the lawn. We are very happy and would highly recommend Sexton Lawn Care
+                                        Highly recommend these guys!! We are selling our house and needed last minute service. They responded immediately and with a fair price. The lawns look great and they were very thorough. ⭐️⭐️⭐️⭐️⭐️ Professional, Excellent Customer Service, and really nice guys! Thank you!!
                                     </p>
                                 </div>
                                 <footer class="flex items-center justify-between mt-8 space-x-4">
                                     <div>
-                                        <span class="block font-medium text-primary">Jeff Vanderhorst</span>
+                                        <span class="block font-medium text-primary">Heather Kanter</span>
                                         <span class="block font-medium">Jefferson, GA</span>
                                     </div>
 
@@ -3294,7 +3330,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                 type="button"
                                 @click="expanded = !expanded"
                                 class="flex items-start justify-between w-full text-left text-white rounded  focus:outline-none focus-visible:ring-2 ring-white"
-                                aria-controls="50464"
+                                aria-controls="54247"
                                 :aria-expanded="expanded"
                             >
                             <span class="font-medium text-white">What&#x27;s the best way to reach you?</span>
@@ -3314,7 +3350,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                 </span>
                             </button>
                         </dt>
-                        <dd x-show="expanded" x-cloak x-collapse class="pr-12" id="50464">
+                        <dd x-show="expanded" x-cloak x-collapse class="pr-12" id="54247">
                             <div aria-hidden="true" class="invisible h-2"></div>
                             <p class="mt-2 text-base text-gray-100">Give us a call or send us a text at +1 678-963-8237. Thanks!</p>
                         </dd>
@@ -3327,7 +3363,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                 type="button"
                                 @click="expanded = !expanded"
                                 class="flex items-start justify-between w-full text-left text-white rounded  focus:outline-none focus-visible:ring-2 ring-white"
-                                aria-controls="50465"
+                                aria-controls="54248"
                                 :aria-expanded="expanded"
                             >
                             <span class="font-medium text-white">Do you provide free estimates?</span>
@@ -3347,7 +3383,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                 </span>
                             </button>
                         </dt>
-                        <dd x-show="expanded" x-cloak x-collapse class="pr-12" id="50465">
+                        <dd x-show="expanded" x-cloak x-collapse class="pr-12" id="54248">
                             <div aria-hidden="true" class="invisible h-2"></div>
                             <p class="mt-2 text-base text-gray-100">Yes, we&#x27;ll always estimate the job for free. Just give us a call to get started.</p>
                         </dd>
@@ -3360,7 +3396,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                 type="button"
                                 @click="expanded = !expanded"
                                 class="flex items-start justify-between w-full text-left text-white rounded  focus:outline-none focus-visible:ring-2 ring-white"
-                                aria-controls="50466"
+                                aria-controls="54249"
                                 :aria-expanded="expanded"
                             >
                             <span class="font-medium text-white">How are you different?</span>
@@ -3380,7 +3416,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                 </span>
                             </button>
                         </dt>
-                        <dd x-show="expanded" x-cloak x-collapse class="pr-12" id="50466">
+                        <dd x-show="expanded" x-cloak x-collapse class="pr-12" id="54249">
                             <div aria-hidden="true" class="invisible h-2"></div>
                             <p class="mt-2 text-base text-gray-100">We&#x27;re a customer-first company that will do whatever it takes to make sure the job is well done.</p>
                         </dd>
@@ -3582,7 +3618,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                    
                       Jefferson, GA <br/>
                   
-                  +1 678-963-8237
+                  1-678-963-8237
                   <!-- Is this supposed to be here and correct?  -->
                   <!-- The finest landscaping in Austin & surrounding areas. Exceptional, professional service. You are our priority! -->
               </p>
@@ -3662,6 +3698,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                           
                           
                           
+                          
                           <li>
                               <a
                                   href='sitemap.xml'
@@ -3669,6 +3706,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                   >Sitemap</a
                               >
                           </li>
+                          
                       </ul>
                   </div>
                   <!-- Services Links -->
@@ -3748,63 +3786,35 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                   <div class="mt-12 md:mt-0">
                       <h3 class="text-sm font-semibold tracking-wider text-gray-100 uppercase">Hours</h3>
                       <ul role="list" class="mt-4 -mx-1 space-y-4">
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Sun: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Mon: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Tues: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Wed: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Thu: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Fri: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Sat: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Sun:  8:00am - 6:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Mon:  8:00am - 6:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Tues:  8:00am - 6:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Wed:  8:00am - 6:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Thu:  8:00am - 6:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Fri:  8:00am - 6:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Sat:  8:00am - 6:00pm 
+                            </li>
+                        
                       </ul>
                   </div>
               </div>
@@ -3846,6 +3856,7 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
             :aria-labelledby="$id('modal-title')"
             class="fixed inset-0 z-40 md:pt-8 md:pb-20"
             x-trap.noscroll.inert="contactModalOpen"
+            id="send-text-modal"
     >
         <!-- Overlay -->
         <div
@@ -3869,11 +3880,11 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 @click="contactModalOpen = false"
-                class="relative flex items-center justify-center w-full h-full sm:h-max"
+                class="relative flex items-center justify-center w-full h-full"
         >
             <div
                     @click.stop
-                    class="flex flex-col w-full h-full overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:px-0 sm:my-0 sm:align-middle sm:max-w-3xl"
+                    class="flex flex-col w-full 2xl:h-max 2xl:mt-8 h-full overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:px-0 sm:my-0 sm:align-middle sm:max-w-3xl"
             >
                 <!-- Header -->
                 <div class="relative px-6 bg-white">
@@ -3975,68 +3986,68 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172664"
-                                                    name="172664"
+                                                    id="contact-service-181584"
+                                                    name="181584"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Weekly Maintenance"
                                             />
-                                            <label for="contact-label-service-172664" class="ml-3 text-sm font-medium text-gray-700">Weekly Maintenance</label>
+                                            <label for="contact-label-service-181584" class="ml-3 text-sm font-medium text-gray-700">Weekly Maintenance</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172665"
-                                                    name="172665"
+                                                    id="contact-service-181585"
+                                                    name="181585"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Bi-Weekly Maintenance"
                                             />
-                                            <label for="contact-label-service-172665" class="ml-3 text-sm font-medium text-gray-700">Bi-Weekly Maintenance</label>
+                                            <label for="contact-label-service-181585" class="ml-3 text-sm font-medium text-gray-700">Bi-Weekly Maintenance</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172666"
-                                                    name="172666"
+                                                    id="contact-service-181586"
+                                                    name="181586"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Pine Straw and Mulch"
                                             />
-                                            <label for="contact-label-service-172666" class="ml-3 text-sm font-medium text-gray-700">Pine Straw and Mulch</label>
+                                            <label for="contact-label-service-181586" class="ml-3 text-sm font-medium text-gray-700">Pine Straw and Mulch</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172667"
-                                                    name="172667"
+                                                    id="contact-service-181587"
+                                                    name="181587"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Sod Installation"
                                             />
-                                            <label for="contact-label-service-172667" class="ml-3 text-sm font-medium text-gray-700">Sod Installation</label>
+                                            <label for="contact-label-service-181587" class="ml-3 text-sm font-medium text-gray-700">Sod Installation</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172668"
-                                                    name="172668"
+                                                    id="contact-service-181588"
+                                                    name="181588"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Small Drainage"
                                             />
-                                            <label for="contact-label-service-172668" class="ml-3 text-sm font-medium text-gray-700">Small Drainage</label>
+                                            <label for="contact-label-service-181588" class="ml-3 text-sm font-medium text-gray-700">Small Drainage</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172669"
-                                                    name="172669"
+                                                    id="contact-service-181589"
+                                                    name="181589"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Mowing"
                                             />
-                                            <label for="contact-label-service-172669" class="ml-3 text-sm font-medium text-gray-700">Mowing</label>
+                                            <label for="contact-label-service-181589" class="ml-3 text-sm font-medium text-gray-700">Mowing</label>
                                         </div>
                                         
                                     </div>
@@ -4068,68 +4079,68 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172664"
-                                                    name="172664"
+                                                    id="contact-service-181584"
+                                                    name="181584"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Weekly Maintenance"
                                             />
-                                            <label for="contact-label-service-172664" class="ml-3 text-sm font-medium text-gray-700">Weekly Maintenance</label>
+                                            <label for="contact-label-service-181584" class="ml-3 text-sm font-medium text-gray-700">Weekly Maintenance</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172665"
-                                                    name="172665"
+                                                    id="contact-service-181585"
+                                                    name="181585"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Bi-Weekly Maintenance"
                                             />
-                                            <label for="contact-label-service-172665" class="ml-3 text-sm font-medium text-gray-700">Bi-Weekly Maintenance</label>
+                                            <label for="contact-label-service-181585" class="ml-3 text-sm font-medium text-gray-700">Bi-Weekly Maintenance</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172666"
-                                                    name="172666"
+                                                    id="contact-service-181586"
+                                                    name="181586"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Pine Straw and Mulch"
                                             />
-                                            <label for="contact-label-service-172666" class="ml-3 text-sm font-medium text-gray-700">Pine Straw and Mulch</label>
+                                            <label for="contact-label-service-181586" class="ml-3 text-sm font-medium text-gray-700">Pine Straw and Mulch</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172667"
-                                                    name="172667"
+                                                    id="contact-service-181587"
+                                                    name="181587"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Sod Installation"
                                             />
-                                            <label for="contact-label-service-172667" class="ml-3 text-sm font-medium text-gray-700">Sod Installation</label>
+                                            <label for="contact-label-service-181587" class="ml-3 text-sm font-medium text-gray-700">Sod Installation</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172668"
-                                                    name="172668"
+                                                    id="contact-service-181588"
+                                                    name="181588"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Small Drainage"
                                             />
-                                            <label for="contact-label-service-172668" class="ml-3 text-sm font-medium text-gray-700">Small Drainage</label>
+                                            <label for="contact-label-service-181588" class="ml-3 text-sm font-medium text-gray-700">Small Drainage</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-172669"
-                                                    name="172669"
+                                                    id="contact-service-181589"
+                                                    name="181589"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Mowing"
                                             />
-                                            <label for="contact-label-service-172669" class="ml-3 text-sm font-medium text-gray-700">Mowing</label>
+                                            <label for="contact-label-service-181589" class="ml-3 text-sm font-medium text-gray-700">Mowing</label>
                                         </div>
                                         
                                     </div>
@@ -4182,6 +4193,38 @@ Our Guarantee: Expert quality every time. We don&#x27;t consider a job done unti
         </div>
     </div>
 </template>
+<div
+	class="fixed top-36 inset-x-0 z-50 mx-auto p-4 border w-96 shadow-lg rounded-md bg-white backdrop-blur-sm"
+    id="text-thank-you"
+    style="display: none"
+>
+	<div class="mt-3 text-center">
+		<div
+			class="mx-auto mb-3 flex items-center justify-center h-12 w-12 rounded-full bg-green-100"
+		>
+			<svg
+				class="h-6 w-6 text-green-600"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M5 13l4 4L19 7"
+				></path>
+			</svg>
+		</div>
+		<h3 class="text-lg leading-6 font-medium text-gray-900">Thank you!</h3>
+		<div class="mt-1 px-7 py-3">
+			<p class="text-sm text-gray-500">
+				Your message was sent successfully. We’ll send you a text or give you a call soon.
+			</p>
+		</div>
+	</div>
+</div>
 <!-- Modal -->
 <template x-teleport="body">
     <div x-show="reviewModalOpen" @keydown.escape.prevent.stop="reviewModalOpen = false" role="dialog" aria-modal="true" x-id="['modal-title']" :aria-labelledby="$id('modal-title')" class="fixed inset-0 z-40 pt-8 pb-20" x-trap.noscroll.inert="reviewModalOpen">
